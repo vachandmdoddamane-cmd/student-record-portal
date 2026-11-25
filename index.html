@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusVault — Student Record Management</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Login View -->
+  <section id="loginView" class="login-wrapper">
+    <div class="login-card">
+      <div class="brand-badge">CampusVault</div>
+      <h1>Student Record Portal</h1>
+      <p class="subtitle">Sign in to manage student records across college departments.</p>
+
+      <form id="loginForm" class="stack">
+        <label>
+          <span>Staff / Admin Email</span>
+          <input type="email" id="loginEmail" value="registrar@college.edu" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" id="loginPassword" value="Campus@2026" required />
+        </label>
+        <button type="submit" class="btn btn-primary full-width">Sign In</button>
+      </form>
+      <p class="hint">Demo credentials are pre-filled. All records save locally in your browser.</p>
+    </div>
+  </section>
+
+  <!-- Main Dashboard View -->
+  <div id="dashboardView" class="app-shell hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand-badge">CampusVault</span>
+        <span id="userBadge" class="user-pill">registrar@college.edu</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="exportCsvBtn" class="btn btn-secondary">Export CSV</button>
+        <button id="openAddModalBtn" class="btn btn-primary">+ Add Student</button>
+        <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Stats Row -->
+      <section class="stats-grid" id="statsGrid"></section>
+
+      <!-- Filters -->
+      <section class="toolbar">
+        <input
+          type="search"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search by name, roll number, or email..."
+        />
+        <select id="departmentFilter" class="select-input">
+          <option value="All">All Departments</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Electronics & Comm.">Electronics &amp; Comm.</option>
+          <option value="Mechanical Engineering">Mechanical Engineering</option>
+          <option value="Civil Engineering">Civil Engineering</option>
+          <option value="Business Administration">Business Administration</option>
+        </select>
+      </section>
+
+      <!-- Student Table -->
+      <section class="table-card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No.</th>
+                <th>Student Name</th>
+                <th>Department</th>
+                <th>Year / Sem</th>
+                <th>CGPA</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+        </div>
+        <p id="emptyState" class="empty-state hidden">No matching student records found.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add / Edit Student Modal -->
+  <div id="studentModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add Student Record</h2>
+        <button id="closeModalBtn" class="icon-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="studentForm" class="form-grid">
+        <input type="hidden" id="editIndex" />
+
+        <label>
+          <span>Roll Number</span>
+          <input type="text" id="rollNo" placeholder="e.g. CS2026-014" required />
+        </label>
+
+        <label>
+          <span>Full Name</span>
+          <input type="text" id="fullName" placeholder="e.g. Ananya Sharma" required />
+        </label>
+
+        <label>
+          <span>Department</span>
+          <select id="department" required>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Electronics & Comm.">Electronics &amp; Comm.</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Business Administration">Business Administration</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Year / Semester</span>
+          <input type="text" id="yearSem" placeholder="e.g. 2nd Year / Sem 4" required />
+        </label>
+
+        <label>
+          <span>CGPA (0–10)</span>
+          <input type="number" step="0.01" min="0" max="10" id="cgpa" placeholder="e.g. 8.75" required />
+        </label>
+
+        <label>
+          <span>Email Address</span>
+          <input type="email" id="email" placeholder="e.g. ananya@college.edu" required />
+        </label>
+
+        <label class="full-span">
+          <span>Enrollment Status</span>
+          <select id="status" required>
+            <option value="Active">Active</option>
+            <option value="On Leave">On Leave</option>
+            <option value="Graduated">Graduated</option>
+          </select>
+        </label>
+
+        <div class="modal-footer full-span">
+          <button type="button" id="cancelModalBtn" class="btn btn-ghost">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
